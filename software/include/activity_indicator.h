@@ -2,6 +2,6 @@
 #include <Arduino.h>
 
 
-void activityIndicatorSetup();
-void showActivity();
-void clearActivity();
+void activityIndicatorSetup(void);
+void showActivity(void);
+void clearActivity(void);
