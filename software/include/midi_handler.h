@@ -23,8 +23,8 @@ const int TRANSPOSE_MAX = 127 - NOTE_HIGH_DEFAULT;
 const int TRANSPOSE_MIN = 0 - NOTE_LOW_DEFAULT;
 
 
-void midiSetup();
-void midiParamInit();
+void midiSetup(void);
+void midiParamInit(void);
 
 void midiNoteOn(byte);
 void midiNoteOff(byte);
@@ -33,7 +33,7 @@ void midiSendCC(byte, byte);
 
 void midiPitchBend(int);
 void setPitchBendDirection(int);
-void handlePBGlide();
+void handlePBGlide(void);
 
 void setTranspose(int);
 
