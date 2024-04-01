@@ -5,4 +5,4 @@
 
 void hexprint(byte); 
 void keyDebug(EventData);
-void debugSetup();
+void debugSetup(void);
