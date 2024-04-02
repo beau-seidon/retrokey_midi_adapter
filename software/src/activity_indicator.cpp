@@ -1,9 +1,9 @@
-#include <activity_indicator.h>
+#include "activity_indicator.h"
 
 
-const int ACTIVITY_LED_DELAY = 20;  // ms
-unsigned long T_act;                // might need to move to main and make extern
 
+const int ACTIVITY_LED_DELAY = 20;      // ms
+unsigned long T_act;                    // might need to move to main and make extern
 
 
 void activityIndicatorSetup() {
@@ -13,14 +13,12 @@ void activityIndicatorSetup() {
 }
 
 
-
 void showActivity() {
     if (millis() > (T_act + ACTIVITY_LED_DELAY)) {
         digitalWrite(LED_BUILTIN, HIGH);
         T_act = millis();
     };
 }
-
 
 
 void clearActivity() {

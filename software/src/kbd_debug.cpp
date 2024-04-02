@@ -1,4 +1,4 @@
-#include <kbd_debug.h>
+#include "kbd_debug.h"
 
 
 
@@ -8,14 +8,12 @@ void debugSetup() {
 }
 
 
-
-void hexprint(byte b) { 
+void hexprint(byte b) {
     Serial.print("0x");
     Serial.print(b < 16 ? "0" : "");
     Serial.print(b, HEX);
     // Serial.print(" ");
 }
-
 
 
 void keyDebug(EventData evt) {

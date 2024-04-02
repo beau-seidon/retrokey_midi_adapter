@@ -1,4 +1,5 @@
-#include <midi_handler.h>
+#include "midi_handler.h"
+
 
 
 byte midi_channel;
@@ -11,15 +12,14 @@ unsigned long T_pb;
 
 int transpose;
 
-MIDI_CREATE_INSTANCE(HardwareSerial, Serial2, SerialMIDI);
 
+MIDI_CREATE_INSTANCE(HardwareSerial, Serial2, midi2);
 
 
 void midiSetup() {
-    SerialMIDI.begin();
+    midi2.begin();
     midiParamInit();
 }
-
 
 
 void midiParamInit() {
@@ -33,29 +33,24 @@ void midiParamInit() {
 }
 
 
-
 void midiNoteOn(byte note) {
-    SerialMIDI.sendNoteOn(note, velocity, midi_channel);
+    midi2.sendNoteOn(note, velocity, midi_channel);
 }
-
 
 
 void midiNoteOff(byte note) {
-    SerialMIDI.sendNoteOff(note, SILENCE, midi_channel);
+    midi2.sendNoteOff(note, SILENCE, midi_channel);
 }
-
 
 
 void midiSendCC(byte cc_num, byte cc_val) {
-    SerialMIDI.sendControlChange(cc_num, cc_val, midi_channel);
+    midi2.sendControlChange(cc_num, cc_val, midi_channel);
 }
-
 
 
 void midiPitchBend(int bend) {
-    SerialMIDI.sendPitchBend(bend, midi_channel);
+    midi2.sendPitchBend(bend, midi_channel);
 }
-
 
 
 void setPitchBendDirection(int new_direction) {
@@ -65,7 +60,6 @@ void setPitchBendDirection(int new_direction) {
         bend_direction = 0;
     }
 }
-
 
 
 void handlePBGlide() {
@@ -78,14 +72,13 @@ void handlePBGlide() {
         }
         if (bend > MIDI_PITCHBEND_MAX) bend = MIDI_PITCHBEND_MAX;
         if (bend < MIDI_PITCHBEND_MIN) bend = MIDI_PITCHBEND_MIN;
-
     } else bend = 0;
+
     if (bend != last_bend) {
         midiPitchBend(bend);
         last_bend = bend;
     }
 }
-
 
 
 void setTranspose(int adjust) {
@@ -95,17 +88,15 @@ void setTranspose(int adjust) {
 }
 
 
-
 void setVelocity(int adjust) {
     velocity += adjust;
-    if (velocity > VELOCITY_MAX) velocity = VELOCITY_MAX;     
+    if (velocity > VELOCITY_MAX) velocity = VELOCITY_MAX;
     if (velocity < VELOCITY_MIN) velocity = VELOCITY_MIN;
 }
 
 
-
 void setChannel(int adjust) {
     midi_channel += adjust;
-    if (midi_channel > CHANNEL_MAX) midi_channel = CHANNEL_MAX;     
+    if (midi_channel > CHANNEL_MAX) midi_channel = CHANNEL_MAX;
     if (midi_channel < CHANNEL_MIN) midi_channel = CHANNEL_MIN;
 }

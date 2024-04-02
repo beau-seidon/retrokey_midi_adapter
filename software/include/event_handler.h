@@ -2,8 +2,9 @@
 #include <Arduino.h>
 
 
-#define PS2_BREAK   0x01
-#define PS2_EXT     0x02
+
+#define PS2_BREAK 0x01
+#define PS2_EXT   0x02
 
 
 struct EventData {

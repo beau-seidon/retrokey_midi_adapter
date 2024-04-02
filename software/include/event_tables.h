@@ -2,16 +2,18 @@
 #include <Arduino.h>
 
 
-enum EventType { 
+
+enum EventType {
     UNUSED, DO_NOTHING, MAKE_ONLY, BREAK_ONLY,
-    MIDI_NOTE_ON, MIDI_NOTE_OFF, ALL_NOTES_OFF, 
-    MIDI_CC_TOGGLE, MIDI_CC_ADJUST, MIDI_PITCHBEND, 
-    TRANSPOSE, CHANGE_VELOCITY, CHANGE_CHANNEL, 
-    FULL_RESET, PRINT, FUTURE 
+    MIDI_NOTE_ON, MIDI_NOTE_OFF, ALL_NOTES_OFF,
+    MIDI_CC_TOGGLE, MIDI_CC_ADJUST, MIDI_PITCHBEND,
+    TRANSPOSE, CHANGE_VELOCITY, CHANGE_CHANNEL,
+    FULL_RESET, PRINT, FUTURE
 };
 
+
 int scancode_to_event[4][132][2] = {
-    {  // Table 0       
+    {  // Table 0
         {UNUSED, 0},                    {DO_NOTHING, 0},                {UNUSED, 0},                    {CHANGE_VELOCITY, -1},
         {DO_NOTHING, 0},                {DO_NOTHING, 0},                {DO_NOTHING, 0},                {DO_NOTHING, 0},
         {UNUSED, 0},                    {DO_NOTHING, 0},                {DO_NOTHING, 0},                {CHANGE_VELOCITY, 1},
@@ -45,8 +47,8 @@ int scancode_to_event[4][132][2] = {
         {DO_NOTHING, 0},                {DO_NOTHING, 0},                {DO_NOTHING, 0},                {DO_NOTHING, 0},
         {DO_NOTHING, 0},                {DO_NOTHING, 0},                {DO_NOTHING, 0},                {UNUSED, 0},
         {UNUSED, 0},                    {UNUSED, 0},                    {UNUSED, 0},                    {DO_NOTHING, 0},
-    }, 
-    {  // Table 1 (EXT)                      
+    },
+    {  // Table 1 (EXT)
         {UNUSED, 0},                    {UNUSED, 0},                    {UNUSED, 0},                    {UNUSED, 0},
         {UNUSED, 0},                    {UNUSED, 0},                    {UNUSED, 0},                    {UNUSED, 0},
         {UNUSED, 0},                    {UNUSED, 0},                    {UNUSED, 0},                    {UNUSED, 0},
@@ -80,8 +82,8 @@ int scancode_to_event[4][132][2] = {
         {UNUSED, 0},                    {UNUSED, 0},                    {MIDI_PITCHBEND, -1},           {UNUSED, 0},
         {DO_NOTHING, 0},                {MIDI_PITCHBEND, 1},            {UNUSED, 0},                    {UNUSED, 0},
         {UNUSED, 0},                    {UNUSED, 0},                    {UNUSED, 0},                    {UNUSED, 0},
-    }, 
-    {  // Table 2 (BREAK)                        
+    },
+    {  // Table 2 (BREAK)
         {UNUSED, 0},                    {DO_NOTHING, 0},                {UNUSED, 0},                    {DO_NOTHING, 0},
         {TRANSPOSE, -1},                {TRANSPOSE, -12},               {TRANSPOSE, 12},                {DO_NOTHING, 0},
         {UNUSED, 0},                    {DO_NOTHING, 0},                {DO_NOTHING, 0},                {DO_NOTHING, 0},
@@ -111,12 +113,12 @@ int scancode_to_event[4][132][2] = {
         {UNUSED, 0},                    {DO_NOTHING, 0},                {UNUSED, 0},                    {DO_NOTHING, 0},
         {DO_NOTHING, 0},                {UNUSED, 0},                    {UNUSED, 0},                    {UNUSED, 0},
         {DO_NOTHING, 0},                {DO_NOTHING, 0},                {DO_NOTHING, 0},                {DO_NOTHING, 0},
-        {DO_NOTHING, 0},                {DO_NOTHING, 0},                {FULL_RESET, 911},           {DO_NOTHING, 0},
+        {DO_NOTHING, 0},                {DO_NOTHING, 0},                {FULL_RESET, 911},              {DO_NOTHING, 0},
         {DO_NOTHING, 0},                {DO_NOTHING, 0},                {DO_NOTHING, 0},                {DO_NOTHING, 0},
         {DO_NOTHING, 0},                {DO_NOTHING, 0},                {DO_NOTHING, 0},                {UNUSED, 0},
         {UNUSED, 0},                    {UNUSED, 0},                    {UNUSED, 0},                    {DO_NOTHING, 0},
-    }, 
-    {  // Table 3 (EXT & BREAK)              
+    },
+    {  // Table 3 (EXT & BREAK)
         {UNUSED, 0},                    {UNUSED, 0},                    {UNUSED, 0},                    {UNUSED, 0},
         {UNUSED, 0},                    {UNUSED, 0},                    {UNUSED, 0},                    {UNUSED, 0},
         {UNUSED, 0},                    {UNUSED, 0},                    {UNUSED, 0},                    {UNUSED, 0},
@@ -150,5 +152,5 @@ int scancode_to_event[4][132][2] = {
         {UNUSED, 0},                    {UNUSED, 0},                    {MIDI_PITCHBEND, 0},            {UNUSED, 0},
         {DO_NOTHING, 0},                {MIDI_PITCHBEND, 0},            {UNUSED, 0},                    {UNUSED, 0},
         {UNUSED, 0},                    {UNUSED, 0},                    {DO_NOTHING, 0},                {DO_NOTHING, 0},
-    }       
+    }
 };

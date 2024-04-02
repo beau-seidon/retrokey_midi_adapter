@@ -1,7 +1,8 @@
-#include <event_handler.h>
-#include <event_tables.h>
-#include <midi_handler.h>
+#include "event_handler.h"
+#include "event_tables.h"
+#include "midi_handler.h"
 #include <PS2Keyboard.h>
+
 
 
 byte note_state[128] = {0};
@@ -17,33 +18,32 @@ extern int transpose;
 EventData parseScanCode(void) {
     EventData event;
 
-	static byte state = 0x0;
-	byte scan_code;
+    static byte state = 0x0;
+    byte scan_code;
 
-	while (1) {
-		scan_code = keyboard.readScanCode();
-		if (!scan_code) {
+    while (1) {
+        scan_code = keyboard.readScanCode();
+        if (!scan_code) {
             event.break_state = false;
             event.extended_state = false;
             event.scancode = 0x0;
             return event;
         }
 
-		if (scan_code == 0xF0) {
-			state |= PS2_BREAK;
-		} else if (scan_code == 0xE0) {
-			state |= PS2_EXT;
-		} else {
+        if (scan_code == 0xF0) {
+            state |= PS2_BREAK;
+        } else if (scan_code == 0xE0) {
+            state |= PS2_EXT;
+        } else {
             event.break_state = (state & PS2_BREAK);
             event.extended_state = (state & PS2_EXT);
             event.scancode = scan_code;
 
-			state &= ~(PS2_BREAK | PS2_EXT);
-			return event;
-		}
-	}
+            state &= ~(PS2_BREAK | PS2_EXT);
+            return event;
+        }
+    }
 }
-
 
 
 void handleEvent(EventData event) {
@@ -55,7 +55,7 @@ void handleEvent(EventData event) {
     if (ps2_break && ps2_ext) {
         table = 3;
     } else if (ps2_break) {
-        table = 2; 
+        table = 2;
     } else if (ps2_ext) {
         table = 1;
     } else {
@@ -67,10 +67,10 @@ void handleEvent(EventData event) {
     int data = scancode_to_event[table][index][1];
 
 
-    switch(action) { 
+    switch(action) {
 
         case(MIDI_NOTE_ON):
-            if (note_state[data] == 0) { 
+            if (note_state[data] == 0) {
                 note_state[data] = 1;
 
                 midiNoteOn((byte)data + (byte)transpose);
@@ -79,11 +79,11 @@ void handleEvent(EventData event) {
                 // Serial.print(data);
                 // Serial.println();
             }
-            break;  
+            break;
 
 
         case(MIDI_NOTE_OFF):
-            if (note_state[data] == 1) { 
+            if (note_state[data] == 1) {
                 note_state[data] = 0;
 
                 midiNoteOff((byte)data + (byte)transpose);
@@ -123,7 +123,7 @@ void handleEvent(EventData event) {
                 // Serial.print(cc_num);
                 // Serial.print(", ");
                 // Serial.print(cc_val);
-                // Serial.println();                
+                // Serial.println();
             }
 
             if (cc_state[cc_num] == 1 && cc_val < 64) {
@@ -152,7 +152,7 @@ void handleEvent(EventData event) {
             // Serial.print("MIDI_PITCHBEND, ");
             // Serial.print(data);
             // Serial.println();
-            break;      
+            break;
 
 
         case(TRANSPOSE):
@@ -161,7 +161,7 @@ void handleEvent(EventData event) {
             // Serial.print("TRANSPOSE, ");
             // Serial.print(data);
             // Serial.println();
-            break;     
+            break;
 
 
         case(CHANGE_VELOCITY):
@@ -198,14 +198,14 @@ void handleEvent(EventData event) {
             Serial.print("DO_NOTHING, ");
             Serial.print(data);
             Serial.println();
-            break;     
+            break;
 
 
         case(UNUSED):
             Serial.print("UNUSED, ");
             Serial.print(data);
             Serial.println();
-            break;      
+            break;
 
 
         default:
